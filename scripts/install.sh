@@ -1,6 +1,10 @@
 #!/bin/bash
 set -x
 
+echo "Running"
+if [ ! -e ~desktop.done ]
+then
+
 if [ -e /etc/redhat-release ] ; then
   REDHAT_BASED=true
 fi
@@ -55,4 +59,13 @@ P_RETVAL=$?
 # clean up
 if [ ! ${REDHAT_BASED} ] ; then
   apt-get clean
+else 
+  yum clean all
+	#clean the package
+	rm -rf /var/cache/yum
+	rm -rf /var/tmp/yum-*  
+fi
+
+ touch ~/desktop.done
+
 fi
