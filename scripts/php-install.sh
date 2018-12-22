@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # php installatipon
 apt-get update -y  && apt-get upgrade -y;
 
