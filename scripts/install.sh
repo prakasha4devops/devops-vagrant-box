@@ -2,7 +2,7 @@
 set -x
 
 echo "Running"
-if [ ! -e ~desktop.done ]
+if [ ! -e ~/desktop.done ]
 then
 
 if [ -e /etc/redhat-release ] ; then
