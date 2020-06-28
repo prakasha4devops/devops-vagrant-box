@@ -26,7 +26,9 @@ Vagrant.configure(2) do |config|
         end
 
 	 devbox.vm.provision "shell", path: "scripts/install.sh"
-    
+
+     devbox.vm.provision "shell", path: "scripts/jenkins.sh"
+
     end
   end
 end
