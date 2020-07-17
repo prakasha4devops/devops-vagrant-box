@@ -17,3 +17,9 @@ vagrant plugin install vagrant-vbguest vagrant-disksize vagrant-winnfsd
 vagrant ssh
 
 if you get any error while doing vagrant up , please run vagrant reload --provision command on your machine
+
+# To run the docker
+
+sudo usermod -aG docker $USER
+sudo chmod 666 /var/run/docker.sock
+
