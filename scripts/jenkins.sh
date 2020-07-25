@@ -17,11 +17,14 @@ if [ ! -e ~/jenkins.done ]; then
   sudo apt-get update
   sudo apt-get install -y jenkins
 
+  sudo systemctl start jenkins
+
   systemctl status jenkins
+
 
   echo "By default Jenkins will run on port 8080. To start Jenkins type in the IP of your VPS and the port number 8080"
 
-  cat /var/lib/jenkins/secrets/initialAdminPassword
+  sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
   touch ~/jenkins.done
 

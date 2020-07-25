@@ -1,0 +1,23 @@
+- name: Starting and Enabling Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes
+
+- name: give the docker file permission
+  command:  chmod 666 /var/run/docker.sock
+
+- name: Download and install Docker Compose
+  get_url:
+    url: "{{docker__compose_download_url}}"
+    dest: /usr/bin/docker-compose
+    mode: 0755
+
+- name: Check if Docker  is installed
+  command: docker --version
+  ignore_errors: yes
+
+- name: Check if Docker Compose is installed
+  command: docker-compose --version
+  ignore_errors: yes
