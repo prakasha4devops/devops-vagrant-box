@@ -23,7 +23,8 @@ Vagrant.configure(2) do |config|
 	       devbox.vm.network "forwarded_port", guest: 50000, host: 50000  # jenkins slave port
 	       devbox.vm.network "forwarded_port", guest: 80, host: 80  # http  port
 	       devbox.vm.network "forwarded_port", guest: 8090, host: 8090  # 8090  port
-      
+           devbox.vm.network "forwarded_port", guest: 5432, host: 5432  # 5432 postgres port
+
 
         devbox.vm.provider "virtualbox" do |v|
             v.customize ["modifyvm", :id, "--memory", opts[:mem]]
