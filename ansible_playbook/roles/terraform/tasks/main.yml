@@ -1,0 +1,9 @@
+- name: Download and install terraform vault
+  unarchive:
+    src: "{{terraform_vault_download_url}}"
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: Check if vault  is installed
+  command: vault --version
+  ignore_errors: yes

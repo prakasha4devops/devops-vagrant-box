@@ -1,9 +1,10 @@
 ---
-- name: Install docker
+- name: Install docker and terrafrom vault
   gather_facts: No
   hosts: all
   become: yes
 
   roles:
     - docker
+    - terraform
    

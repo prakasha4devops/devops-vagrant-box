@@ -1,0 +1,2 @@
+terraform_vault_version: "1.5.4"
+terraform_vault_download_url: "https://releases.hashicorp.com/vault/{{terraform_vault_version}}/vault_{{terraform_vault_version}}_linux_amd64.zip"

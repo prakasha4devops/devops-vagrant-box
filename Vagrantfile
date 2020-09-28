@@ -1,9 +1,9 @@
 boxes = [
   {
       :name => "#{ENV['COMPUTERNAME'] || `hostname`[0..-2]}-devops",
-      :eth1 => '192.168.199.9',
+      :eth1 => '192.168.10.10',
       :groups => "/vagrant",
-      :mem => "2048",
+      :mem => "4048",
       :cpu => "2"
   },
 ]
@@ -19,11 +19,15 @@ Vagrant.configure(2) do |config|
          devbox.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", disabled: true #ssh port
          devbox.vm.network :forwarded_port, guest: 22, host: 2210,  auto_correct: true  #ssh port
 
-         devbox.vm.network "forwarded_port", guest: 8080, host: 8080 # jenkins master port
-	       devbox.vm.network "forwarded_port", guest: 50000, host: 50000  # jenkins slave port
-	       devbox.vm.network "forwarded_port", guest: 80, host: 80  # http  port
-	       devbox.vm.network "forwarded_port", guest: 8090, host: 8090  # 8090  port
-           devbox.vm.network "forwarded_port", guest: 5432, host: 5432  # 5432 postgres port
+         devbox.vm.network "forwarded_port", guest: 8080, host: 8081 # jenkins master port
+	     devbox.vm.network "forwarded_port", guest: 50000, host: 50000  # jenkins slave port
+	     devbox.vm.network "forwarded_port", guest: 80, host: 80  # http  port
+	     devbox.vm.network "forwarded_port", guest: 8090, host: 8090  # 8090  port
+         devbox.vm.network "forwarded_port", guest: 5432, host: 5432  # 5432 postgres port
+         devbox.vm.network "forwarded_port", guest: 8070, host: 8070  # 8070 postgres port
+         devbox.vm.network "forwarded_port", guest: 9200, host: 9200  # 9200 Elasticsearch  port
+         devbox.vm.network "forwarded_port", guest: 9300, host: 9300  # 9300 Elasticsearch  port
+
 
 
         devbox.vm.provider "virtualbox" do |v|
@@ -39,7 +43,7 @@ Vagrant.configure(2) do |config|
 
       devbox.vm.provision "ansible_local" do |ansible|
             ansible.verbose = true
-            ansible.playbook = "/vagrant/ansible_playbook/deploy-docker.yml"
+            ansible.playbook = "/vagrant/ansible_playbook/playbook.yml"
         end
 
       if File.directory?(File.expand_path("E:/work/projects"))
