@@ -3,13 +3,13 @@ boxes = [
       :name => "#{ENV['COMPUTERNAME'] || `hostname`[0..-2]}-devops",
       :eth1 => '192.168.10.10',
       :groups => "/vagrant",
-      :mem => "4048",
-      :cpu => "2"
+      :mem => "8056",
+      :cpu => "4"
   },
 ]
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "bento/ubuntu-20.04" #ubuntu/bionic64
 
   boxes.each do |opts|
     config.vm.define opts[:name] do |devbox|
@@ -19,7 +19,8 @@ Vagrant.configure(2) do |config|
          devbox.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", disabled: true #ssh port
          devbox.vm.network :forwarded_port, guest: 22, host: 2210,  auto_correct: true  #ssh port
 
-         devbox.vm.network "forwarded_port", guest: 8080, host: 8081 # jenkins master port
+         devbox.vm.network "forwarded_port", guest: 8080, host: 8080 # jenkins master port
+         devbox.vm.network "forwarded_port", guest: 8081, host: 8081 # jenkins - docker master port
 	     devbox.vm.network "forwarded_port", guest: 50000, host: 50000  # jenkins slave port
 	     devbox.vm.network "forwarded_port", guest: 80, host: 80  # http  port
 	     devbox.vm.network "forwarded_port", guest: 8090, host: 8090  # 8090  port
@@ -27,13 +28,15 @@ Vagrant.configure(2) do |config|
          devbox.vm.network "forwarded_port", guest: 8070, host: 8070  # 8070 postgres port
          devbox.vm.network "forwarded_port", guest: 9200, host: 9200  # 9200 Elasticsearch  port
          devbox.vm.network "forwarded_port", guest: 9300, host: 9300  # 9300 Elasticsearch  port
-
+         devbox.vm.network "forwarded_port", guest: 8200, host: 8200  # 8200 vault port
+		 devbox.vm.network "forwarded_port", guest: 8000, host: 8000 # django python port
+		 devbox.vm.network "forwarded_port", guest: 3306, host: 3306 # mysql 3306 port
 
 
         devbox.vm.provider "virtualbox" do |v|
             v.customize ["modifyvm", :id, "--memory", opts[:mem]]
             v.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
-            v.customize ["modifyvm", :id, "--groups", opts[:groups]]            
+            v.customize ["modifyvm", :id, "--groups", opts[:groups]]
             v.name = opts[:name]
             v.gui = false
         end
@@ -46,9 +49,9 @@ Vagrant.configure(2) do |config|
             ansible.playbook = "/vagrant/ansible_playbook/playbook.yml"
         end
 
-      if File.directory?(File.expand_path("E:/work/projects"))
-          devbox.vm.synced_folder "E:/work/projects", "/vagrant/projects",type: "virtualbox"
-      end
+#       if File.directory?(File.expand_path("E:/work/projects"))
+#           devbox.vm.synced_folder "E:/work/projects", "/vagrant/projects",type: "virtualbox"
+#       end
 
     end
   end
